@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可大乡中心小学校 | Keda Central Primary School</title>
+<style>
+/* ===== Reset & Base ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;color:#2c3e50;background:#f8f9fa;line-height:1.7;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{max-width:100%;display:block}
+
+/* ===== CSS Variables ===== */
+:root{
+  --primary:#0a1f3f;
+  --primary-light:#142d54;
+  --accent:#c9a84c;
+  --accent-light:#e0c87a;
+  --gold-grad:linear-gradient(135deg,#c9a84c,#a8862a);
+  --text-light:#f0f0f0;
+  --text-muted:#7f8c8d;
+  --bg-light:#f8f9fa;
+  --bg-white:#ffffff;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:0 8px 30px rgba(0,0,0,0.08);
+  --shadow-lg:0 20px 60px rgba(0,0,0,0.12);
+  --radius:12px;
+  --radius-sm:8px;
+  --transition:all 0.35s cubic-bezier(0.25,0.8,0.25,1);
+}
+
+/* ===== Navbar ===== */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,31,63,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:0 2rem;transition:var(--transition);border-bottom:1px solid rgba(201,168,76,0.2)}
+.navbar.scrolled{box-shadow:0 4px 30px rgba(0,0,0,0.3)}
+.nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo .shield{width:46px;height:46px;object-fit:contain;border-radius:10px}
+.nav-logo .brand-name{font-size:1.35rem;font-weight:700;color:#fff;letter-spacing:1px}
+.nav-logo .brand-sub{font-size:0.7rem;color:var(--accent-light);letter-spacing:2px;text-transform:uppercase;display:block;margin-top:-2px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:rgba(255,255,255,0.82);font-size:0.92rem;font-weight:500;position:relative;padding:4px 0;transition:var(--transition)}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width 0.3s}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav-cta{padding:10px 24px;background:var(--gold-grad);color:#0a1f3f!important;border-radius:50px;font-weight:700!important;font-size:0.88rem!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,0.4)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001}
+.hamburger span{width:28px;height:2.5px;background:#fff;border-radius:2px;transition:var(--transition)}
+
+/* ===== Hero Section ===== */
+.hero{position:relative;height:100vh;min-height:650px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease-in-out}
+.hero-slide.active{opacity:1}
+.hero-slide .bg-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.45)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,31,63,0.4) 0%,rgba(10,31,63,0.75) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:900px;padding:0 2rem}
+.hero-badge{display:inline-block;padding:8px 24px;border:1px solid var(--accent);border-radius:50px;color:var(--accent-light);font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(10px)}
+.hero-title{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:20px;letter-spacing:2px}
+.hero-title span{background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:1.15rem;color:rgba(255,255,255,0.78);max-width:600px;margin:0 auto 36px;line-height:1.8}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{padding:14px 36px;background:var(--gold-grad);color:#0a1f3f;border-radius:50px;font-weight:700;font-size:0.95rem;transition:var(--transition);border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(201,168,76,0.45)}
+.btn-outline{padding:14px 36px;border:2px solid rgba(255,255,255,0.5);color:#fff;border-radius:50px;font-weight:600;font-size:0.95rem;transition:var(--transition);background:transparent;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,0.1);transform:translateY(-3px)}
+.hero-indicators{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:3}
+.hero-indicators button{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);background:transparent;cursor:pointer;transition:var(--transition)}
+.hero-indicators button.active{background:var(--accent);border-color:var(--accent);transform:scale(1.3)}
+.scroll-down{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;color:#fff;font-size:0.8rem;letter-spacing:2px;animation:bounce 2s infinite;text-transform:uppercase;cursor:pointer}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+.hero-slide-content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 2rem;color:#fff}
+.hero-slide-content h3{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:800;letter-spacing:1px;margin-bottom:24px}
+.hero-slide-content h3 .gold{background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-slide-timeline{list-style:none;max-width:800px;margin:0 auto;padding:0;text-align:left}
+.hero-slide-timeline li{display:flex;align-items:flex-start;gap:16px;margin-bottom:12px;font-size:0.98rem;color:rgba(255,255,255,0.88);line-height:1.7}
+.hero-slide-timeline li::before{content:'';flex:0 0 8px;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:9px}
+.hero-slide-timeline .year{flex:0 0 96px;font-weight:700;color:var(--accent-light);letter-spacing:0.5px}
+.hero-slide-text{max-width:880px;font-size:1.02rem;color:rgba(255,255,255,0.85);line-height:2;text-align:center}
+.hero-slide-text p{margin-bottom:14px}
+.hero-slide-text p:last-child{margin-bottom:0}
+.hero-slide-keywords{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:22px}
+.hero-slide-keywords span{padding:8px 20px;border:1px solid rgba(201,168,76,0.5);border-radius:50px;font-size:0.85rem;color:var(--accent-light);letter-spacing:1px}
+
+/* ===== Section Common ===== */
+.section{padding:100px 2rem}
+.section-header{text-align:center;margin-bottom:64px}
+.section-tag{display:inline-block;font-size:0.8rem;letter-spacing:3px;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.section-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--primary);margin-bottom:16px;letter-spacing:1px}
+.section-line{width:60px;height:3px;background:var(--gold-grad);margin:0 auto 20px;border-radius:2px}
+.section-subtitle{color:var(--text-muted);max-width:580px;margin:0 auto;font-size:1rem}
+.container{max-width:1300px;margin:0 auto}
+
+/* ===== About Section ===== */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-img-wrapper{position:relative}
+.about-img{width:100%;border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.about-img-accent{position:absolute;bottom:-24px;right:-24px;width:180px;height:180px;background:var(--gold-grad);border-radius:var(--radius);z-index:-1;opacity:0.25}
+.about-stats{display:flex;gap:40px;margin-top:32px}
+.stat-item{text-align:center}
+.stat-num{font-size:2.5rem;font-weight:800;background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
+
+/* ===== News Section ===== */
+.news{background:var(--bg-white)}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px}
+.news-card{background:var(--bg-light);border-radius:var(--radius);overflow:hidden;transition:var(--transition);box-shadow:var(--shadow-sm)}
+.news-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.news-card-img{height:200px;overflow:hidden}
+.news-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s}
+.news-card:hover .news-card-img img{transform:scale(1.08)}
+.news-card-body{padding:24px}
+.news-card-date{font-size:0.8rem;color:var(--accent);font-weight:600;margin-bottom:8px}
+.news-card-title{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:10px;line-height:1.5}
+.news-card-desc{font-size:0.9rem;color:var(--text-muted);line-height:1.7}
+.news-card-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:0.85rem;font-weight:700;color:var(--accent);transition:var(--transition)}
+.news-card-link:hover{gap:12px}
+
+/* ===== Lightbox ===== */
+.news-card-img{cursor:zoom-in}
+.lightbox{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.92);flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
+.lightbox.open{display:flex}
+.lightbox-img{max-width:min(92%,1600px);max-height:78vh;object-fit:contain;border-radius:var(--radius-sm);box-shadow:var(--shadow-lg)}
+.lightbox-caption{color:var(--text-light);margin-top:18px;font-size:1rem;text-align:center;max-width:80%}
+.lightbox-close{position:absolute;top:18px;right:30px;font-size:2.6rem;line-height:1;color:var(--text-light);cursor:pointer;transition:var(--transition);opacity:0.85}
+.lightbox-close:hover{transform:rotate(90deg);opacity:1}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);font-size:3rem;color:rgba(255,255,255,0.6);cursor:pointer;padding:10px 20px;user-select:none;transition:var(--transition)}
+.lightbox-nav:hover{color:var(--accent-light)}
+.lightbox-prev{left:16px}
+.lightbox-next{right:16px}
+
+/* ===== Courses Section ===== */
+.courses{background:linear-gradient(180deg,var(--bg-light) 0%,var(--bg-white) 100%)}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+.course-card{background:var(--bg-white);border-radius:var(--radius);padding:36px 28px;text-align:center;transition:var(--transition);box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold-grad);transform:scaleX(0);transition:transform 0.4s}
+.course-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-md)}
+.course-card:hover::before{transform:scaleX(1)}
+.course-icon{width:70px;height:70px;margin:0 auto 20px;border-radius:50%;background:rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;font-size:30px;transition:var(--transition)}
+.course-card:hover .course-icon{background:var(--primary)}
+.course-name{font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px}
+.course-desc{font-size:0.9rem;color:var(--text-muted);line-height:1.7}
+
+/* ===== Faculty Section ===== */
+.faculty{background:var(--primary);color:#fff}
+.faculty .section-title,.faculty .section-subtitle{color:#fff}
+.faculty .section-subtitle{color:rgba(255,255,255,0.65)}
+.faculty-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px}
+.faculty-card{background:rgba(255,255,255,0.05);border-radius:var(--radius);overflow:hidden;text-align:center;padding:36px 24px;transition:var(--transition);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.08)}
+.faculty-card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.1);border-color:rgba(201,168,76,0.3)}
+.faculty-avatar{width:100px;height:100px;border-radius:50%;margin:0 auto 20px;background:var(--gold-grad);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;color:var(--primary)}
+.faculty-name{font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.faculty-title{font-size:0.85rem;color:var(--accent-light);margin-bottom:12px}
+.faculty-bio{font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6}
+
+/* ===== Campus Gallery ===== */
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:250px 250px 250px 250px;gap:12px}
+.gallery-item{position:relative;overflow:hidden;border-radius:var(--radius-sm);cursor:pointer}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s}
+.gallery-item:hover img{transform:scale(1.1)}
+.gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(10,31,63,0.7) 100%);opacity:0;transition:opacity 0.4s}
+.gallery-item:hover::after{opacity:1}
+.gallery-item .caption{position:absolute;bottom:16px;left:16px;color:#fff;font-weight:600;z-index:1;opacity:0;transform:translateY(10px);transition:all 0.4s}
+.gallery-item:hover .caption{opacity:1;transform:translateY(0)}
+.gallery-item:nth-child(1){grid-column:span 2}
+.gallery-item:nth-child(6){grid-column:span 2}
+.gallery-item:nth-child(9){grid-column:span 2}
+
+/* ===== Contact Section ===== */
+.contact{background:var(--bg-white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:48px}
+.contact-info h3{font-size:1.6rem;font-weight:800;color:var(--primary);margin-bottom:20px}
+.contact-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px}
+.contact-icon{width:48px;height:48px;border-radius:50%;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;color:var(--accent)}
+.contact-text h4{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:2px}
+.contact-text p{font-size:0.9rem;color:var(--text-muted)}
+.contact-form{background:var(--bg-light);padding:40px;border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:0.85rem;font-weight:600;color:var(--primary);margin-bottom:6px}
+.form-group input,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid #e0e0e0;border-radius:var(--radius-sm);font-size:0.92rem;transition:var(--transition);font-family:inherit;background:#fff}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,168,76,0.12)}
+.form-group textarea{resize:vertical;min-height:120px}
+
+/* ===== Footer ===== */
+.footer{background:var(--primary);color:#fff;padding:64px 2rem 28px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;max-width:1300px;margin:0 auto 48px}
+.footer-brand .brand-name{font-size:1.3rem;font-weight:700;margin-bottom:12px}
+.footer-brand p{color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.7}
+.footer h4{font-size:1rem;font-weight:700;margin-bottom:20px;color:var(--accent-light)}
+.footer-links li{margin-bottom:10px}
+.footer-links a{color:rgba(255,255,255,0.55);font-size:0.9rem;transition:var(--transition)}
+.footer-links a:hover{color:var(--accent);padding-left:4px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;text-align:center;color:rgba(255,255,255,0.4);font-size:0.82rem;max-width:1300px;margin:0 auto}
+
+/* ===== Back to Top ===== */
+.back-top{position:fixed;bottom:32px;right:32px;width:48px;height:48px;background:var(--gold-grad);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--primary);cursor:pointer;opacity:0;visibility:hidden;transition:var(--transition);z-index:999;border:none;box-shadow:0 4px 16px rgba(201,168,76,0.35)}
+.back-top.visible{opacity:1;visibility:visible}
+.back-top:hover{transform:translateY(-4px)}
+
+/* ===== Responsive ===== */
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:200px 200px 200px 200px 200px 200px 200px 200px}
+  .gallery-item:nth-child(1),.gallery-item:nth-child(6),.gallery-item:nth-child(9){grid-column:span 2}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links{position:fixed;top:0;right:-100%;width:75%;max-width:340px;height:100vh;background:var(--primary);flex-direction:column;padding:100px 40px 40px;gap:28px;transition:right 0.4s ease}
+  .nav-links.active{right:0;box-shadow:-10px 0 40px rgba(0,0,0,0.3)}
+  .hamburger{display:flex}
+  .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+  .hamburger.active span:nth-child(2){opacity:0}
+  .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+  .section{padding:64px 1.25rem}
+  .hero-title{font-size:2rem}
+  .news-grid{grid-template-columns:1fr}
+  .courses-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:180px 180px 180px 180px 180px 180px 180px 180px}
+  .about-stats{gap:24px}
+  .footer-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .courses-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr;grid-template-rows:200px 200px 200px 200px 200px 200px 200px 200px 200px 200px 200px 200px 200px}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-primary,.btn-outline{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Navbar ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="logo.png" alt="可大乡中心小学校" class="shield">
+      <div>
+        <span class="brand-name">可大乡中心小学校</span>
+        <span class="brand-sub">Keda Central Primary School</span>
+      </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">首页</a>
+      <a href="#about">学校概况</a>
+      <a href="#news">荣誉展示</a>
+      <a href="#courses">课程体系</a>
+      <a href="#faculty">师资力量</a>
+      <a href="#gallery">校园风光</a>
+      <a href="#contact" class="nav-cta">欢迎到校参观</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Hero Section ===== -->
+<section class="hero" id="home">
+  <div class="hero-slide active">
+    <img class="bg-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230a1f3f'/%3E%3Cstop offset='50%25' style='stop-color:%23142850'/%3E%3Cstop offset='100%25' style='stop-color:%231b3a6b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1920' height='1080'/%3E%3Cg opacity='0.06'%3E%3Ccircle cx='300' cy='400' r='300' fill='%23c9a84c'/%3E%3Ccircle cx='1600' cy='600' r='400' fill='%23c9a84c'/%3E%3Ccircle cx='900' cy='200' r='200' fill='%23c9a84c'/%3E%3C/g%3E%3Ctext x='960' y='520' text-anchor='middle' font-size='400' font-weight='900' fill='rgba(255,255,255,0.03)' font-family='serif'%3E可大%3C/text%3E%3C/svg%3E" alt="校园全景">
+  </div>
+  <div class="hero-slide">
+    <img class="bg-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a2a4a'/%3E%3Cstop offset='50%25' style='stop-color:%23102850'/%3E%3Cstop offset='100%25' style='stop-color:%230a1f3f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1920' height='1080'/%3E%3Cg opacity='0.05'%3E%3Ccircle cx='400' cy='300' r='200' fill='%23c9a84c'/%3E%3Ccircle cx='1500' cy='700' r='260' fill='%23c9a84c'/%3E%3C/g%3E%3Ctext x='960' y='520' text-anchor='middle' font-size='380' font-weight='900' fill='rgba(255,255,255,0.03)' font-family='serif'%3E沿革%3C/text%3E%3C/svg%3E" alt="历史沿革">
+    <div class="hero-slide-content">
+      <h3>历史沿革 · <span class="gold">百年校史</span></h3>
+      <ul class="hero-slide-timeline">
+        <li><span class="year">1930年8月</span>乡长张志横在"禹王宫"内创立半公半私的"大公小学"</li>
+        <li><span class="year">1931年</span>改为"可大湖公立学校"</li>
+        <li><span class="year">1942年3月</span>更名为"可大湖中心小学"</li>
+        <li><span class="year">1997年</span>更名为"重庆市酉阳县可大乡中心小学校"</li>
+        <li><span class="year">十二五以来</span>全面改善办学条件，占地达16318.7余平方米，建成标准化功能室</li>
+        <li><span class="year">近年</span>连续四年获综合考核A等次，教学成绩全县名列前茅</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hero-slide">
+    <img class="bg-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231b3a6b'/%3E%3Cstop offset='100%25' style='stop-color:%230a1f3f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1920' height='1080'/%3E%3Cg opacity='0.05'%3E%3Crect x='300' y='400' width='200' height='200' rx='100' fill='%23c9a84c'/%3E%3Crect x='1400' y='250' width='180' height='180' rx='90' fill='%23c9a84c'/%3E%3Crect x='1600' y='650' width='150' height='150' rx='75' fill='%23c9a84c'/%3E%3C/g%3E%3Ctext x='960' y='520' text-anchor='middle' font-size='380' font-weight='900' fill='rgba(255,255,255,0.03)' font-family='serif'%3E简介%3C/text%3E%3C/svg%3E" alt="学校简介">
+    <div class="hero-slide-content">
+      <h3>学校简介 · <span class="gold">立德树人</span></h3>
+      <div class="hero-slide-text">
+        <p>学校全面贯彻党和国家的教育方针政策，坚持立德树人根本任务，深耕学生全面发展。学校坚守"建山区优质学校·办人民满意教育"办学理念，恪守"笃学、遵纪、拼搏、创新"校训，从严抓实校园常规管理，厚植优良育人风气。</p>
+        <p>学校现有7个教学班，在校学生288人，在岗教师23人。学校连续四年获综合考核A等次，教学成绩全县名列前茅；是重庆市土家族原生态摆手舞教育传承基地，将土家摆手舞融入日常办学，打造独具特色的民族美育品牌，持续传承发扬酉阳本土非遗文化。</p>
+      </div>
+      <div class="hero-slide-keywords">
+        <span>民主 · 和谐 · 进取 · 向上</span>
+        <span>沉心 · 关爱 · 示范 · 奉献</span>
+        <span>勤思 · 乐学 · 合作 · 奋进</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Since 1930 · 百年名校</div>
+    <h1 class="hero-title">立德树人 · <span>追求卓越</span></h1>
+    <p class="hero-desc">可大乡中心小学校全面贯彻党和国家的教育方针政策，坚持立德树人，促进人的全面发展，历经百年，传承并发展成以"建山区优质学校·办人民满意教育"为办学理念，秉承"笃学、遵纪、拼搏、创新"的校训，不断加强常规管理，狠抓校风、教风、学风建设，逐渐形成了"民主、和谐、进取、向上"的校风，"沉心、关爱、示范、奉献"的教风和"勤思、乐学、合作、奋进"的学风。</p>
+    <div class="hero-btns">
+      <a href="#about" class="btn-primary">&#9654; 探索可大</a>
+    </div>
+  </div>
+  <div class="hero-indicators">
+    <button class="active" onclick="goSlide(0)"></button>
+    <button onclick="goSlide(1)"></button>
+    <button onclick="goSlide(2)"></button>
+  </div>
+  <div class="scroll-down" onclick="document.getElementById('about').scrollIntoView()">Scroll &#8595;</div>
+</section>
+
+<!-- ===== About Section ===== -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">About Us</span>
+      <h2 class="section-title">学校概况</h2>
+      <div class="section-line"></div>
+      <p class="section-subtitle">近百年办学历史，深厚文化积淀，致力于培养引领未来的卓越人才</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-img-wrapper">
+        <div style="width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,#0a1f3f 0%,#1b3a6b 50%,#0d2240 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(0,0,0,0.12)">
+          <div style="text-align:center;color:#fff">
+            <div style="font-size:80px;font-weight:900;background:linear-gradient(135deg,#c9a84c,#a8862a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">可大</div>
+            <div style="font-size:16px;color:rgba(255,255,255,0.6);letter-spacing:3px;margin-top:8px">KEDA CENTRAL PRIMARY SCHOOL</div>
+            <div style="width:40px;height:2px;background:#c9a84c;margin:16px auto"></div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.4);letter-spacing:6px">EST. 1930</div>
+          </div>
+        </div>
+        <div class="about-img-accent"></div>
+      </div>
+      <div>
+        <h3 style="font-size:1.6rem;font-weight:800;color:#0a1f3f;margin-bottom:16px">百年育人，薪火相传</h3>
+        <p style="color:#7f8c8d;line-height:1.9;margin-bottom:16px">
+          可大乡中心小学校始建于1930年8月，时称"大公小学"，后历经"可大湖公立学校""可大湖中心小学"等发展变迁，
+          于1997年正式更名为"重庆市酉阳县可大乡中心小学校"。学校坐落于酉阳土家族苗族自治县可大乡可大湖畔，
+          近百年来薪火相传、不断发展壮大，从最初的几间木质教室成长为一方育人的教育沃土。
+        </p>
+        <p style="color:#7f8c8d;line-height:1.9;margin-bottom:20px">
+          学校现有占地面积16318.7余平方米，建筑面积5581.24平方米，绿化面积4556平方米，运动场6365.7平方米；
+          拥有图书17380余册，计算机95台，教室25间，并建有图书阅览室、科学实验室、音乐室、舞蹈室、美术室、
+          书法室、计算机室、科技室、劳技室、卫生保健室、心理咨询室等功能室，办学条件全面改善。
+        </p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-num">96+</div>
+            <div class="stat-label">年办学历史</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">288</div>
+            <div class="stat-label">在校学生</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">23</div>
+            <div class="stat-label">名教师</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">7</div>
+            <div class="stat-label">个教学班</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== News Section ===== -->
+<section class="section news" id="news">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Honors</span>
+      <h2 class="section-title">荣誉展示</h2>
+      <div class="section-line"></div>
+      <p class="section-subtitle">一块块奖牌，见证学校在非遗传承、体育竞技、科技创新与教育教学工作中取得的累累硕果（点击图片可放大查看）</p>
+    </div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-1.jpg" alt="理事单位牌匾">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年4月</div>
+          <div class="news-card-title">县非遗保护协会理事单位</div>
+          <div class="news-card-desc">学校被酉阳自治县非物质文化遗产保护协会授予"理事单位"称号，深度参与非遗文化保护与传承工作。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-2.jpg" alt="2022年度非遗保护工作先进单位牌匾">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年4月</div>
+          <div class="news-card-title">2022年度非物质文化遗产保护工作先进单位</div>
+          <div class="news-card-desc">学校荣获酉阳自治县文化和旅游局表彰的"2022年度非物质文化遗产保护工作先进单位"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-3.jpg" alt="非遗传承教育基地牌匾">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年5月</div>
+          <div class="news-card-title">非物质文化遗产传承教育基地</div>
+          <div class="news-card-desc">学校（酉阳土家摆手舞）被酉阳土家族苗族自治县文化和旅游发展委员会授予"非物质文化遗产传承教育基地"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-4.jpg" alt="第二十七届小学生田径运动会优秀组织奖">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年10月</div>
+          <div class="news-card-title">第二十七届小学生田径运动会优秀组织奖</div>
+          <div class="news-card-desc">学校在酉阳自治县第二十七届小学生田径运动会中荣获"优秀组织奖"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-5.jpg" alt="第二十八届小学生田径运动会优秀组织奖">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2024年11月</div>
+          <div class="news-card-title">第二十八届小学生田径运动会优秀组织奖</div>
+          <div class="news-card-desc">学校在酉阳自治县第二十八届小学生田径运动会中再度荣获"优秀组织奖"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-6.jpg" alt="教育工作先进集体牌匾">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年9月</div>
+          <div class="news-card-title">教育工作先进集体</div>
+          <div class="news-card-desc">学校获中共酉阳土家族苗族自治县委、县人民政府表彰"酉阳县社会发展突出贡献·教育工作先进集体"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-7.jpg" alt="青少年科技创新大赛优秀组织单位">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2021年4月</div>
+          <div class="news-card-title">青少年科技创新大赛优秀组织单位</div>
+          <div class="news-card-desc">学校在第18届酉阳自治县青少年科技创新大赛暨第6届中小学生科技节活动中获评"优秀组织单位"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-8.jpg" alt="小学生篮球锦标赛男子组组织奖">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年9月</div>
+          <div class="news-card-title">小学生篮球锦标赛男子组组织奖</div>
+          <div class="news-card-desc">学校在酉阳自治县2023年小学生篮球锦标赛（麻旺镇中心小学集团）男子组中荣获"组织奖"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-9.jpg" alt="2021年度教育系统安稳工作先进集体">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2022年3月</div>
+          <div class="news-card-title">2021年度教育系统安稳工作先进集体</div>
+          <div class="news-card-desc">学校获酉阳自治县教育委员会表彰"2021年度教育系统安稳工作先进集体"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-10.jpg" alt="2023年度学校工作综合考核先进单位">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2024年3月</div>
+          <div class="news-card-title">2023年度学校工作综合考核先进单位</div>
+          <div class="news-card-desc">学校获评"2023年度学校工作综合考核先进单位"，教育教学工作再上新台阶。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-11.jpg" alt="小学生篮球锦标赛片区赛男子组第一名">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2024年3月</div>
+          <div class="news-card-title">小学生篮球锦标赛片区赛男子组第一名</div>
+          <div class="news-card-desc">学校在酉阳自治县2024年小学生篮球锦标赛麻旺镇中心小学集团片区赛（男子组）中荣获第一名。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-12.jpg" alt="2022年度教育系统安稳工作先进集体">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2023年2月</div>
+          <div class="news-card-title">2022年度教育系统安稳工作先进集体</div>
+          <div class="news-card-desc">学校获酉阳自治县教育委员会表彰"2022年度教育系统安稳工作先进集体"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-13.jpg" alt="2020年度学校工作综合考核先进单位">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2021年12月</div>
+          <div class="news-card-title">2020年度学校工作综合考核先进单位</div>
+          <div class="news-card-desc">学校获评"2020年度学校工作综合考核先进单位"。</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="honor-14.jpg" alt="2023年度非遗保护工作先进单位">
+        </div>
+        <div class="news-card-body">
+          <div class="news-card-date">2024年3月</div>
+          <div class="news-card-title">2023年度非物质文化遗产保护工作先进单位</div>
+          <div class="news-card-desc">学校获酉阳自治县文化和旅游委表彰"2023年度非物质文化遗产保护工作先进单位"。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Courses Section ===== -->
+<section class="section courses" id="courses">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Academics</span>
+      <h2 class="section-title">课程体系</h2>
+      <div class="section-line"></div>
+      <p class="section-subtitle">立足小学基础教育，五育并举，促进学生德智体美劳全面发展</p>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="course-icon">&#9767;</div>
+        <div class="course-name">语文 · 数学</div>
+        <div class="course-desc">夯实基础学科根基，注重读写与运算能力培养，为终身学习奠基。</div>
+      </div>
+      <div class="course-card">
+        <div class="course-icon">&#9878;</div>
+        <div class="course-name">英语 · 信息技术</div>
+        <div class="course-desc">标准英语教学与信息素养并重，学校配备计算机95台，其中70台用于教学。</div>
+      </div>
+      <div class="course-card">
+        <div class="course-icon">&#9998;</div>
+        <div class="course-name">科学 · 道德与法治</div>
+        <div class="course-desc">依托标准化科学实验室培养探究能力，立德树人，涵养良好品德。</div>
+      </div>
+      <div class="course-card">
+        <div class="course-icon">&#9881;</div>
+        <div class="course-name">音乐 · 舞蹈</div>
+        <div class="course-desc">音乐室、舞蹈室设备齐全，传承土家摆手舞等民族优秀文化，以艺育人。</div>
+      </div>
+      <div class="course-card">
+        <div class="course-icon">&#9764;</div>
+        <div class="course-name">美术 · 书法</div>
+        <div class="course-desc">美术室、书法室一应俱全，涵养审美情操，传承中华书画艺术。</div>
+      </div>
+      <div class="course-card">
+        <div class="course-icon">&#127917;</div>
+        <div class="course-name">体育 · 劳动</div>
+        <div class="course-desc">6365.7平方米运动场强健体魄，劳技室劳动实践，五育并举、全面发展。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Faculty Section ===== -->
+<section class="section faculty" id="faculty">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Our Faculty</span>
+      <h2 class="section-title">师资力量</h2>
+      <div class="section-line"></div>
+      <p class="section-subtitle">教师队伍团结奋进，教育教学生态良好，立德树人育桃李</p>
+    </div>
+    <div class="faculty-grid">
+      <div class="faculty-card">
+        <div class="faculty-avatar">师</div>
+        <div class="faculty-name">师资队伍</div>
+        <div class="faculty-title">现有教师 23 名</div>
+        <div class="faculty-bio">教育教学生态良好，班子团结，教师齐心，全面贯彻党的教育方针，坚持立德树人。</div>
+      </div>
+      <div class="faculty-card">
+        <div class="faculty-avatar">学</div>
+        <div class="faculty-name">办学规模</div>
+        <div class="faculty-title">7 个教学班 · 学生 288 人</div>
+        <div class="faculty-bio">学校现有学生288人、7个教学班，小班教学，关注每一位学生的成长。</div>
+      </div>
+      <div class="faculty-card">
+        <div class="faculty-avatar">绩</div>
+        <div class="faculty-name">办学成绩</div>
+        <div class="faculty-title">连续四年综合考核 A 等次</div>
+        <div class="faculty-bio">教育教学成绩显著，连续四年获得学校综合考核同类别学校A等次，教学成绩考核全县排名前列。</div>
+      </div>
+      <div class="faculty-card">
+        <div class="faculty-avatar">舞</div>
+        <div class="faculty-name">民族特色</div>
+        <div class="faculty-title">摆手舞教育传承基地</div>
+        <div class="faculty-bio">学校作为"重庆市土家族原生态摆手舞教育传承基地"，充分挖掘民族优秀文化，形成办学特色。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Gallery Section ===== -->
+<section class="section" id="gallery">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Campus</span>
+      <h2 class="section-title">校园风光</h2>
+      <div class="section-line"></div>
+      <p class="section-subtitle">美丽校园，设施齐全，为学子提供良好的学习与成长环境</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="campus-6.jpg" alt="可大乡中心小学校校舍外立面">
+        <span class="caption">综合教学楼 — 教室25间</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-9.jpg" alt="校园教学楼外景">
+        <span class="caption">校园教学楼外景</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-11.jpg" alt="教学楼侧面笃学标语">
+        <span class="caption">教学楼 · 笃学标语</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-4.jpg" alt="校园建筑全景俯瞰">
+        <span class="caption">校园建筑全景</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-12.jpg" alt="傍晚校园大门">
+        <span class="caption">傍晚时分的校门</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-13.jpg" alt="运动区航拍全景">
+        <span class="caption">运动区航拍全景</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-5.jpg" alt="室外篮球场">
+        <span class="caption">室外篮球场</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-10.jpg" alt="操场学生打篮球">
+        <span class="caption">操场篮球运动</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-8.jpg" alt="校园舞台文艺活动">
+        <span class="caption">土家摆手舞 — 传承民族文化</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-7.jpg" alt="学生操场集会活动">
+        <span class="caption">学生集会活动</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-1.png" alt="学校室内空间">
+        <span class="caption">整洁卫生的学生食堂</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-2.jpg" alt="教室学习环境">
+        <span class="caption">图书 17380 余册</span>
+      </div>
+      <div class="gallery-item">
+        <img src="campus-14.jpg" alt="校园文化墙走廊">
+        <span class="caption">师德师风文化墙</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact Section ===== -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Visit Us</span>
+      <h2 class="section-title">欢迎到校参观</h2>
+      <div class="section-line"></div>
+      <p class="section-subtitle">诚邀您走进可大乡中心小学校，实地感受校园环境、办学特色与育人氛围</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>到校指引</h3>
+        <div class="contact-item">
+          <div class="contact-icon">&#9906;</div>
+          <div class="contact-text">
+            <h4>学校地址</h4>
+            <p>重庆市酉阳土家族苗族自治县可大乡</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">&#8986;</div>
+          <div class="contact-text">
+            <h4>参观时间</h4>
+            <p>周一至周五 8:30 - 17:30（节假日除外），欢迎提前预约到校参观</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3 style="font-size:1.5rem;font-weight:800;color:#0a1f3f;margin-bottom:20px">参观预约</h3>
+        <form id="visitForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>预约人姓名</label>
+            <input type="text" name="预约人姓名" placeholder="请输入您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label>电子邮箱</label>
+            <input type="email" name="电子邮件" placeholder="请输入您的邮箱地址" required>
+          </div>
+          <div class="form-group">
+            <label>计划参观日期</label>
+            <input type="text" name="计划参观日期" placeholder="如：2026年9月1日">
+          </div>
+          <div class="form-group">
+            <label>参观需求说明</label>
+            <textarea name="参观需求说明" placeholder="如：预约人数、随行人员、参观意向等" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center">提交预约 &#8594;</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">可大乡中心小学校 Keda Central Primary School</div>
+      <p>始建于1930年，历经近百年薪火相传。学校秉承"建山区优质学校·办人民满意教育"的办学理念，谨遵"笃学、遵纪、拼搏、创新"校训，坚持立德树人，促进学生全面发展。</p>
+    </div>
+    <div>
+      <h4>快速链接</h4>
+      <ul class="footer-links">
+        <li><a href="#about">学校概况</a></li>
+        <li><a href="#courses">课程体系</a></li>
+        <li><a href="#faculty">师资力量</a></li>
+        <li><a href="#news">荣誉展示</a></li>
+        <li><a href="#gallery">校园风光</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>办学特色</h4>
+      <ul class="footer-links">
+        <li><a href="#courses">五育并举</a></li>
+        <li><a href="#faculty">师资队伍</a></li>
+        <li><a href="#gallery">民族特色</a></li>
+        <li><a href="#news">办学成果</a></li>
+        <li><a href="#about">学校概况</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 可大乡中心小学校 Keda Central Primary School. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- ===== Back to Top ===== -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#9650;</button>
+
+<script>
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  backTop.classList.toggle('visible', window.scrollY > 600);
+});
+
+// Mobile menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('active');
+});
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('active');
+  });
+});
+
+// Hero carousel
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const indicators = document.querySelectorAll('.hero-indicators button');
+const totalSlides = slides.length;
+let autoPlay;
+
+function goSlide(index) {
+  slides[currentSlide].classList.remove('active');
+  indicators[currentSlide].classList.remove('active');
+  currentSlide = index;
+  slides[currentSlide].classList.add('active');
+  indicators[currentSlide].classList.add('active');
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.style.display = index >= 1 ? 'none' : '';
+  }
+}
+function nextSlide() {
+  goSlide((currentSlide + 1) % totalSlides);
+}
+function startAutoPlay() {
+  autoPlay = setInterval(nextSlide, 3000);
+}
+function stopAutoPlay() {
+  clearInterval(autoPlay);
+}
+startAutoPlay();
+document.querySelector('.hero').addEventListener('mouseenter', stopAutoPlay);
+document.querySelector('.hero').addEventListener('mouseleave', startAutoPlay);
+
+// Contact form - 通过 EmailJS 提交预约并发送邮件到学校邮箱
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button');
+  const original = btn.textContent;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  btn.textContent = '正在提交…';
+  btn.disabled = true;
+  emailjs.send('service_70ifyrj', 'template_1p8jtka', data)
+  .then(() => {
+    btn.textContent = '✓ 提交成功！';
+    btn.style.background = '#27ae60';
+    btn.style.color = '#fff';
+    form.reset();
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+    }, 2500);
+  })
+  .catch(() => {
+    btn.textContent = '提交失败，请检查网络后重试';
+    btn.style.background = '#c0392b';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+    }, 2500);
+  });
+}
+
+// Smooth scroll for all anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    const href = anchor.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// Animate stats on scroll
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const nums = entry.target.querySelectorAll('.stat-num');
+      nums.forEach(num => {
+        const text = num.textContent;
+        num.style.opacity = '0';
+        num.style.transform = 'translateY(20px)';
+        num.style.transition = 'all 0.6s ease';
+        setTimeout(() => {
+          num.style.opacity = '1';
+          num.style.transform = 'translateY(0)';
+        }, 100);
+      });
+      statsObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+const statsEl = document.querySelector('.about-stats');
+if (statsEl) statsObserver.observe(statsEl);
+
+/* ===== Lightbox 荣誉图片放大查看 ===== */
+const honorImages = Array.from(document.querySelectorAll('.news-card-img img'));
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCaption = document.getElementById('lightboxCaption');
+let lightboxIndex = 0;
+
+function updateLightbox() {
+  const img = honorImages[lightboxIndex];
+  if (!img) return;
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt || '';
+  const card = img.closest('.news-card');
+  const title = card ? card.querySelector('.news-card-title').textContent : '';
+  lightboxCaption.textContent = title;
+}
+function openLightbox(index) {
+  if (!honorImages.length) return;
+  lightboxIndex = index;
+  updateLightbox();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+honorImages.forEach((img, i) => {
+  img.addEventListener('click', () => openLightbox(i));
+});
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.getElementById('lightboxPrev').addEventListener('click', (e) => {
+  e.stopPropagation();
+  lightboxIndex = (lightboxIndex - 1 + honorImages.length) % honorImages.length;
+  updateLightbox();
+});
+document.getElementById('lightboxNext').addEventListener('click', (e) => {
+  e.stopPropagation();
+  lightboxIndex = (lightboxIndex + 1) % honorImages.length;
+  updateLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') {
+    lightboxIndex = (lightboxIndex - 1 + honorImages.length) % honorImages.length;
+    updateLightbox();
+  }
+  if (e.key === 'ArrowRight') {
+    lightboxIndex = (lightboxIndex + 1) % honorImages.length;
+    updateLightbox();
+  }
+});
+</script>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="图片放大查看">
+  <span class="lightbox-close" id="lightboxClose" title="关闭">&times;</span>
+  <span class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10094;</span>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="放大查看">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+  <span class="lightbox-nav lightbox-next" id="lightboxNext">&#10095;</span>
+</div>
+
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+// EmailJS init（须在 SDK 加载后执行）
+emailjs.init({
+  publicKey: 'XoI0rZpUq2HA11mNA'
+});
+</script>
+
+</body>
+</html>
